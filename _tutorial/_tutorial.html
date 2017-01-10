@@ -1,0 +1,698 @@
+﻿<html>
+	<head>
+		<title>
+			fast3d introduction tutorial
+		</title>
+	</head>
+	
+	<body bgcolor="white" text="black" link="#9999FF">
+		<p align="center" id="top">
+			<img src="icon.png" align="center" height="30%">
+			<h1 align="center">Fast3d</h1>
+			<h2 align="center">3D imaging and calculations framework for java</h2>
+		</p>
+		<p align="center">
+			Eine Einführung in Fast3d.
+		</p>
+		<p id="tableOfContent">
+		<img src="earth.png" align="right" width="49%">
+			<table border="1" width="49%">
+			<tr>
+				<th>
+				Inhaltsverzeichnis
+			<tr><td><a href="#top">Intro</a>
+			<tr><td><a href="#why">Warum fast3d?</a>
+			<tr><td><a href="#firstApp">erstes Programm</a>
+			<tr><td><a href="#interactive">MVC</a>
+			<tr><td><a href="#lighting">Dreiecke und Beleuchtung</a>
+			<tr><td><a href="#texture">Texturierung</a>
+			<tr><td><a href="#objFileLoader">Komplexe Objekte</a>
+			<tr><td><a href="#shapes">Einfache Objekte</a>
+			<tr><td><a href="#click">3d-Klicks</a>
+			<tr><td><a href="#creative">Creative Coding</a>
+			<tr><td><a href="#turtle">Turtle Graphics in 3d</a>
+			<tr><td><a href="#hud">head-up-displays</a>
+			<tr><td><a href="#ntk">nice to know</a>
+			<tr><td><a href="#gtk">Installation</a>
+			<tr><th>Advanced stuff
+			<tr><td><a href="#calc">Lageberechnungen - analytische Geometrie</a>
+			<tr><td><a href="#frag">FragmentShading</a>
+			<tr><td><a href="#shademode">Shading Modes</a>
+			<tr><td><a href="#util">Utilities</a>
+			<tr><td><a href="#android">Android</a>
+			<tr><td><a href="#gtk">good to know</a>
+			</table>
+		</p>
+		
+		<p align="center">
+		<h1 align="center">Fast3d</h1>
+		<h2 align="center">3D imaging and calculations framework for java</h2>
+		<h4 align="center">Made in Saxony, Germany by Tim Trense, Copyright 2016, Alle Rechte vorbehalten, All rights reserved.</h4>
+		</p>
+		
+		<p id="why">
+			<h3 align="center">Was ist Fast3d und wofür ist es entwickelt</h3>
+			
+			Das Framework ist dafür entwickelt, den Einstieg sehr einfach zu gestalten,
+			 sodass eine nützliche Anwendung innerhalb von wenigen Minuten und mit nur 
+			 ein paar Zeilen Code gebaut werden kann.
+			 Das Framework zielt auf drei Einsatzgebiete ab: 
+			 <ul>
+			 <li>den Einstieg in 3d-Programmierung (für Schüler und Studenten)
+			 <li>komplexe Anwendungen, die von 3d als Feature profitieren könnten (professionelle Applikationen)
+			 <li>Creative Coding
+			 </ul>
+			 Dabei bietet Fast3d eine Vielzahl an nützlichen Features:
+			 <ul>
+			 <li>java als EINZIGE dependency - kein OpenGL oder DirectX
+			 <li>multi-plattform - Android-Version genauso leicht zu programmieren wie Java-Version
+			 <li>pure java - only CPU - und trotzdem vergleichbar schnell wie andere 3d-grafik-frameworks (OGL, DX)
+			 <li>designed with simplicity in mind - minimaler Einarbeitungsaufwand - sinnvolle 3d-Funktionen in weniger als 10 Zeilen Code
+			 <li>Model-View-Controller-Architektur
+			 <li>komplette Dokumentation
+			 <li>weniger als 1 MB inklusive ausführlichem javadoc - momentan unter 0.2 MB ohne javadoc (release-version), Android-Version 0.15 MB
+			 <li>verpackt als .jar-Datei - einfach zum java-build-path hinzufügen und loslegen
+			 <li>durchgängig objektorientiert
+			 <li>fast3d.simple-packages mit default-Implementierungen für alles - mit dem mitgelieferten Baukasten ist fast jede Anwendung abgedeckt
+			 <li>sehr schneller render-prozess - Echtzeit-Anwendungen Full-HD/4K 60+fps möglich
+			 <li>Phong-Illumination-Model
+			 <li>swing basiert: Panel3d als zentrale Klasse
+			 <li>keine Sorge um komplizierte 3d-Berechnungen: übernimmt alles das framework
+			 <li>an vielen Stellen erweiterbar
+			 <li>fast3d.util stellt viele Algorithmen bereit, damit der Programmierer sich ganz auf seine eigentliche Aufgabe konzentrieren kann
+			 <li>Lageberechnungen mittels RelationshipAnalytics - geeignet für mathematisch- exakte Anwendungen
+			 <li>ray-tracing für hochauflösende und realistische Bilder
+			 <li>Panel3d p.render(Graphics3d) : AWT-artiges Zeichnen in 3d
+			 <li>Turtle3d : Turtle-Grafik in 3d mittels TurtlePanel3d
+			 <li>eingebautes Dateiformat .f3obj - bis zu 90% Speicherplatz-Ersparnis gegenüber Wavefront .obj & .mtl
+			 </ul>
+		</p>
+		
+		<p if="firstApp">
+			<h3 align="center">Genug der Vorrede - let's start coding</h3>
+			Um Fast3d in ein Projekt einzubinden genügt es völlig die entsprechend 
+			 aktuelle .jar Datei dem java-build-path hinzuzufügen. Es werden absolut 
+			 keine anderen Dependencies oder Referenzen benötigt: kein DirectX oder 
+			 OpenGL. Überall wo java 1.7 und aufwärts installiert ist, läuft auch 
+			 fast3d.
+			<br>
+			<table border="1" width="100%" height="50%">
+			<tr>
+				<td width="20%">
+			Um eine 3d-Funktionalität einer auf Swing basierenden Applikation 
+			 hinzuzufügen, bedarf es einer Swing-Componente: dem Panel3d - oder
+			 einer für den Einstieg vereinfachten Variante (die eigentlich auch meistens 
+			 ausreicht) : dem SimplePanel3d
+				<td>
+					<embed type="text" width="100%" height="100%" 
+					src="src/Fast3dTutorial/example0/Example0.java">
+			</table>
+			<br>
+			Nun ist auf der Komponente nur ein schwarzer Hintergrund zu sehen. Logisch, denn
+			 es wurden ja auch noch keine Objekte (sogenannte Renderables) in die Szenerie
+			 geladen. (Man beachte bitte den Unterschied zwischen Szene und Szenerie: als Szenerie 
+			 wird die Gesamtheit aller renderbaren Objekte bezeichnet- eine Szene fasst nur einen Teil 
+			 dieser zur besseren Datenstruktur zusammen. Beispiel: Ein ObjFileLoader 
+			 lädt eine Szene, aber ein Panel3d kann mehr als nur eine .obj file anzeigen)
+			Es wird Zeit ein renderbares Objekt in die Szenerie zu laden.
+			Erzeugen wir also beispielsweise eine Linie:
+				<pre>
+	final Vector3d start = new Vector3d(-1,0,0);
+	final Vector3d end = new Vector3d(1,1,0);
+	final Color col = ColorGen.YELLOW();
+	final Line line = new Line(start, end, col);
+				</pre>
+			Nun wird es Zeit, diese Linie in die Szenerie einzufügen.
+			Jedes Panel3d hält ein sogenanntes Universe, das alle Daten besitzt, die 
+			 notwendig sind um eine Szenerie zu rendern.
+				<pre>
+	final Universe uni = p3d.getUniverse();
+	uni.add(line);
+				</pre>
+			Als letztes muss nun noch das Universe gerendert werden.
+			Das passiert automatisch jedes Mal, wenn das Panel3d einen 
+			 paintComponent() Aufruf bekommt.
+			Also:
+				<pre>
+	p3d.repaint();
+				</pre>
+			Doch halt: es wird nichts angezeigt?!
+			Naja, das ist nicht verwunderlich, denn immerhin haben wir nirgends angegeben, 
+			 von wo aus wir in das Universe hineinschauen möchten.
+			Eine Szenerie wird immer von einem Blickpunkt und einer Blickrichtung aus gerendert.
+			Informationen darüber hält auch das Universe in Form einer Camera.
+			(Tipp: da eine Kamera entlang ihrer Blickrichtung gedreht werden kann, 
+			 muss angegeben werden, wo oben ist (hier ist es die standart-hoch-achse))
+				<pre>
+	final Camera cam = uni.getCam();
+	final Vector3d position = new Vector3d(0,0,5);
+	cam.moveTo(position);
+	final Vector3d upVector = Vector3d.up();
+	final Vector3d lookDirection = Vector3d.forward();
+	cam.lookInDirection(lookDirection, upVector);
+				</pre>
+			Nun sollte das Panel3d eine Linie zeigen.<br>
+			Wir werden im 3d-Raum oft mit Vektoren arbeiten: das ist eine Kombination 
+			 aus 3 reellen Zahlen (x, y, z), die entweder eine Richtung im Raum oder 
+			 eine Position im Raum angeben.
+			Das Koordinatensystem ist dabei ein normales, mathematisches, karthesisches
+			 Koordinatensystem, bei dem die x-Achse von links nach rechts geht, die y-Achse nach oben 
+			 und die z-Achse aus dem Bildschirm heraus.<br>
+			Hier nochmal der gesamte Quelltext:
+			<table border="1" width="100%" height="80%">
+				<tr><td>
+					<embed type="text" width="100%" height="100%" 
+					src="src/Fast3dTutorial/example0/Example0_1.java">
+			</table><br>
+			Es gibt noch eine ganze Palette mehr mitgelieferter Renderables in fast3d.renderables
+			 u.a. Triangles und beleuchtete AdvTriangles, Callouts, Rectangles, HUDs, ...<br>
+			(weitere Informationen im javadoc)<br>
+			eigene Renderables zu definieren ist möglich, 
+			 aber für den Anfang etwas kompliziert - später mehr
+			<img height="400" width="100%" src="src/Fast3dTutorial/example1/screenshot.png">
+		</p>
+		
+		<p id="interactive">
+			<h3 align="center">Interaction 1</h3>
+			Ein statisches Bild anzuzeigen mag nun manchmal hilfreich sein, aber 
+			 ein echtes Gefühl von Tiefe erhält der Nutzer erst, wenn er sich 
+			 in dem Universum bewegen kann.<br>
+			Dafür setzt Fast3d konsequent eine Model-View-Controller Architectur um.
+			Das Datenmodell bietet das Universe, die Anzeige wird vom Panel3d übernommen,
+			und Nutzereingaben verarbeitet ein Objekt einer Klasse die von (Simple)Control erbt.
+			Ein Control kann aber auch autonom (bspw. in Abhängigkeit der Zeit) Veränderungen 
+			 im Universe / am Panel3d vornehmen.
+			Ein Control übernimmt das gesamt AWT-Eventhandling eines Panel3d.
+			Um es einfacher zu machen gibt es eine Reihe vorgefertigter Controls, u.a. 
+			 das SimpleTopDownRotationUserControl.<br>
+			Dieses sorgt dafür, dass der User per mouse-drag horizontal die Camera um 
+			 einen angegeben Punkt rotieren kann (standartgemäß der Koodinatenursprung).
+			Im Paket fast3d.simple.controls finden sich noch weitere interessante fertige
+			 Controls (u.a. das gleiche Control nur ohne User-Input aber mit 
+			 automatischer Rotation).
+			Um eigene Controls zu definieren einfach von fast3d.control.SimpleControl 
+			 oder fast3d.control.Control ableiten. (weitere Informationen im javadoc)
+			<table border="1" width="100%" height="80%">
+			<tr><td>
+				<embed type="text" width="100%" height="100%"
+				src="src/Fast3dTutorial/example1/Example0.java">
+			</table><br>
+			Ein Control kann für jedes Panel3d registriert werden.<br>
+			Jedes SimplePanel3d verfügt zudem über ein FrameRate-Objekt, welches in 
+			 einem Thread dafür sorgt, dass es kontinuierlich neu gezeichnet wird. 
+			 Dies muss eingestellt werden, da die Änderungen am Model nicht sofort
+			 zu einem neuen Frame der View führen. (weitere Informationen im javadoc)
+		</p>
+		<p id="lighting">
+			<h3 align="center">Dreiecke und Licht</h3>
+			Ein paar tolle Linien im Raum zeichnen mag zwar interessant sein, aber 
+			 was wäre, wenn man 3d-Objekte wie ein Auto anzeigen könnte?<br>
+			Nun, solche Objekte bestehen aus Dreiecken, die die Form annähern.<br>
+			Um also ein Auto zu bauen, muss man mehrere Dreiecke definieren, die im Raum 
+			 aneinander liegen.
+			Normale Triangles kann man wie Lines nur mit drei Vektoren definieren und dem 
+			 Universe hinzuzufügen.
+			Aber damit das Auto eine erkennbare Form bekommt braucht es Licht und Schatten.
+			Normale Triangles reagieren aber nicht auf Licht - sie behalten immer die zugewiesene 
+			 Farbe auf dem Bildschirm.
+			Um eine Grundfarbe zu erhellen wenn Licht darauf fällt, bedarf es eines Renderables, 
+			 das dies berücksichtig, wenn es gebeten wird sich 3d-zu-zeichnen.<br>
+			Ein solches ist das AdvTriangle.<br>
+			Der Lichtberechnung liegt das Phong-Illumination-Model zugrunde, das heißt, dass 
+			 es verschiedene Arten von Licht gibt, die zusammengerechnet mit dem Material 
+			 die Bildschirmfarbe (die sogenannte sichtbare Farbe) ausmachen.
+			Da nun eine Oberfläche auf unterschiedliche Lichtarten (ambient, gerichtet, Glanzlicht) 
+			 unterschiedlich reagieren kann (stark glänzend, aber sonst recht dunkel z.B.) 
+			 wird für jede Lichtart eine Oberflächenfarbe definiert, zudem eine Normale und ein Glanzwert.
+			All diese Farbeigenschaften werden in einem Material-Objekt zusammengefasst, dass 
+			 einem beleuchtbaren Objekt im Konstruktor mitgegeben werden kann.
+			(Eine Beleuchtungsberechnung wird nur durchgeführt, wenn ein renderbares 
+			 Objekt Illuminatable implementiert)<br>
+			(weitere Informationen im javadoc)<br>
+			<table border="1" width="100%" height="100%">
+				<tr><td>
+					<embed type="text" width="100%" height="100%"
+					src="src/Fast3dTutorial/example2/Example0.java">
+			</table>
+			<img height="400" width="100%" src="src/Fast3dTutorial/example2/screenshot.png">
+		</p>
+		<p id="texture">
+			<h3 align="center">Oberflächentextur</h3>
+			In der Designphase des Autos aus vorangegangenem Beispiel wird man früher oder später an den Punkt kommen, an dem man 
+			 sehr feine Details modellieren muss - beispielsweise die Felgen oder die Rillen der Reifen.
+			Dies alles in das 3d-Modell mit einzubringen wäre aber unter Umständen, je nach Anwendungsfall, eine enorme 
+			 Verschwendung von Speicher und Rechenzeit beim Rendern.<br>
+			Um einer Oberfläche eine plastische Beschaffenheit zu geben, oder um ein Bild in einer Szenerie anzuzeigen bedarf es 
+			 einer sogenannten Textur. Das ist im Grunde ein speziell aufbereitets Bild (.png, .jpg, .jpeg,...).
+			Dieses Bild wird dann beim Rendern wie eine dehnbare Folie auf die Oberfläche des 3d-Modells gezogen.
+			Man benötigt also nur eine Bilddatei, die man als Textur lädt und ein <i>fast3d.renderable.AdvTriangle</i>.
+			<table border="1" width="100%" height="85%">
+				<tr><td>
+				<embed type="text" width="100%" height="100%"
+				src="src/Fast3dTutorial/example9/TextureTriangleExample.java">
+			</table>
+			<img width="50%" align="left"
+			src="src/Fast3dTutorial/example9/screenshot.png"><br>&nbsp;<br>
+			<i>
+			Zu beachten: texturierte AdvTriangles kosten wesentlich mehr Renderzeit als normale Triangles oder AdvTriangles - 
+			 man sollte Texturierung also mit Bedacht einsetzen, wenn es um Echtzeitanwendungen geht.
+			</i>
+		</p>
+		<p id="objFileLoader">
+			<h3 align="center">Komplexe Objekte</h3>
+			Sicherlich ist es kompliziert ein Auto aufzubauen, wenn man jedes AdvTriangle selbst 
+			 definieren muss. Doch glücklicherweise gibt es 3d-Programme (etwa Blender) die solche 
+			 komplexen Strukturen in handliche Dateien exportieren können.
+			Ein solches 3d-Dateiformat ist *.obj - Das Wavefront Object Format.<br>
+			Um ein 3d-Objekt zu laden genügt einfach folgendes:
+				<pre>
+	final Scene scn = ObjFileLoader.load("filename.obj");
+				</pre>
+			Das Ergebnis ist entweder eine renderbare Szene (die dem Universe hinzugefügt werden kann),
+			 oder null wenn irgendwas schief lief. (Wenn man Exception-Handling betreiben möchte, 
+			 kann man auch den FileInputStream als BufferedReader plus den Verzeichnisnamen der Datei 
+			 an <i>ObjFileLoader.load(dirName, reader)</i> übergeben )
+			<br>(weitere Informationen im javadoc)<br>
+			Es gibt außer der Scene noch andere renderbare Datenstrukturen:
+			<ol>
+			<li>Scene - enthält und rendert mehrere Objects	(equivalent zu einer .obj-Datei)
+			<li>Object - enthält und rendert mehrere Groups (equivalent zu einem .obj-o-tag)
+			<li>Group - enthält und rendert mehrere Triangles (equivalent zu einem .obj-g-tag)
+			</ol>
+			Jede solche Datenstruktur kann wie ein Triangle der Universe hinzugefügt werden, 
+			 wird als seine Komponenten gerendert und kann transformiert werden (später mehr).
+			Will man jedoch die Unter-Komponenten selbst anklickbar machen und nicht nur 
+			 die gesamte Scene bspw. so sollte man <br><i>scn.addObjectsToUniverse(Universe)</i><br>aufrufen : 
+			 die Scene (in diesem Fall) wird dann nicht mehr zum Universe hinzugefügt, 
+			 aber ihre Objects.<br>
+			Will man jedoch jedes einzelne Triangle anklickbar machen, so ruft man 
+			 <i>scn.addToUniverse(Universe)</i> auf.<br>
+			Diese Methode gibt es auch für Objects. Außerdem besitzen Objects noch 
+			 <i>obj.addGroupsToUniverse(Universe)</i>.<br>
+			Anklickbar bedeutet folgenes: man kann auf einem Panel3d mittels pickClosest(x,y) dasjenige 
+			 Renderable herausfinden, das an diese Bildschirmkoordinate gerendert wird. Das kann man z.B. in 
+			 einem Control nutzen oder auf ein SimplePanel3d einen ClickListener3d registrieren - mehr dazu weiter unten.
+			<br>&nbsp;<br>
+			Um .obj-Dateien zu exportieren sind folgene Optionen sinnvoll: keep vertex order, 
+			 write normals, triangulate faces, write materials, 
+			 objects as OBJ Objects and objects as OBJ groups, material groups<br>&nbsp;<br>
+			Um Aktionen auf jedem einzelnen Vertex einer Group, eines Objects oder einer 
+			 Scene auszuführen, gibt es <i>complex.forEveryVertexOnce(VertexAction)</i>. Dabei
+			 ist VertexAction ein functional interface mit der Methode <i>perform(Vector3d)</i>.<br>&nbsp;<br>
+			Alle diese Datenstrukturen besitzen:
+			<i>
+			<ul>
+			<li>moveTo(Vector3d positionCenter)
+			<li>moveInDirection(Vector3d dir)
+			<li>scale(double factor)
+			<li>forEveryVertexOnce(VertexAction) und forEveryVertex(VertexAction)
+			<li>capacity()
+			<li>clone(), equals(java.lang.Object) und toString()
+			<li>getRelativePositions() - return Hashtable of [Triangle/Group/Object, Vector3d relativeToCenter]
+			<li>rotX(double rad), rotY(double rad), rotZ(double rad), rot(Vector3d axis, double rad)
+			<li>getTriangles() und getTrianglesOnce()
+			</ul>
+			</i>
+			Wenn man jedoch ein Programm (eventuell sogar auf einer mobilen Plattform) ausliefern möchte, sollten die 
+			 Ressourcen-Dateien ziemlich klein sein. Das .obj Format ist and dieser Stelle nicht das Bestmögliche,
+			 weil es die Dateien menschenlesbar schreibt. Das macht sie leicht zu verändern, aber sicherlich nicht 
+			 klein. Außerdem muss man darauf achten, dass .mtl Dateien für die Materialbibliotheken noch richtig 
+			 aufgelöst werden können.<br>
+			Alle diese Probleme löst ein anderes Format. Fast3d definiert hier ein eigenes: das Fast3d-Object-Format
+			 *.f3obj.<br>
+			Hiermit wird es möglich die Materialien und Objekt-Daten in einer Datei zusammenzufassen und gleichzeitig 
+			 <b>bis zu 90% Speicherplatz zu sparen</b>. Um dieses Format zu nutzen gibt es den F3ObjImporter und F3ObjExporter.<br>&nbsp;<br>
+			<table border="1" width="100%" height="100%">
+				<tr><td>
+					<embed type="text" width="100%" height="100%"
+					src="src/Fast3dTutorial/example8/F3ObjExample.java">
+			</table>
+		</p>
+		
+		<p id="shapes">
+			<h3 align="center">Vordefinierte Geometrische Körper - GeometricBodies</h3>
+			<img src="src/Fast3dTutorial/example6/screenshot.png" align="right">
+			Für komplizierte Formen, wie einen Vogel oder ein Haus mag es sinnvoll sein, diese in einem
+			 3d-Design-Programm (wie etwa blender) zu bauen und dann in eine fast3d-Applikation 
+			 zu laden. Aber es gibt eine Reihe mathematischer Körper, die erzeugt und manipuliert werden
+			 können, ohne sie jedes Mal neu in einem solchen Programm bearbeiten zu müssen.
+			Solche mathematischen Formen werden geometrische Körper genannt. In Fast3d werden besonders 
+			 die Polyeder genutzt - also Würfel, Quader, Pyramide, Prisma ... - andere Körper mit runden
+			 Begrenzungen werden durch high-poly-Polyeder angenähert: Zylinder, Kugeln und Kegel etwa.<br>
+			Alle diese einfachen Körper werden als <i>Groups</i> definiert und über sogenannte <i>fast3d.simple.shapes.GeometricBodyBuilder</i>
+			 gebaut. Es gibt eine Reihe vordefinierter GeometricBodyBuilder:<br>
+			<table border="1">
+				<tr>
+					<th>fast3d.simple.shapes.XXX GeometricBodyBuilder
+					<th>für:
+					<th>Eigenschaften
+				<tr>
+					<td>Box
+					<td>Würfel, Quader, ColorCubes (Würfel mit zufällig-bunten Seiten - unabhängig von den Eigenschaften; Größe immer 1d)
+					<td>sizeX, sizeY, sizeZ
+				<tr>
+					<td>Cone
+					<td>Zylinder, Pyramiden (resolution gering r<10)
+					<td>resolution, height, radius, onGround
+				<tr>
+					<td>Sphere
+					<td>Kugeln, eckige Bälle
+					<td>resolutionLatitude, resolutionLongitude, radius
+				<tr>
+					<td>Cylinder
+					<td>Zylinder, Prisma
+					<td>resolution, height, radius, onGround
+			</table><br>
+			Jeder GeometricBodyBuilder hat die Methoden <i>setMaterial(Material)</i> und <i>setColor(Color)</i> über die festgelegt 
+			 werden kann, mit welchen Eigenschaften die Dreiecke der resultierenden Group ausgestattet werden. (Und ob AdvTriangles 
+			 oder normale Triangles genutzt werden (Dies könnte sich in späteren Versionen ändern).<br>
+			Für jeden Builder <i>muss genau eine</i> der beidem Methoden aufgerufen werden. Danach können via public-field-access 
+			 die Eigenschaften weiter bestimmt werden. (Die Felder haben normierte default-Werte)<br>
+			Wenn der Körper fertig definiert ist wird <i>builder.build():Group</i> aufgerufen und man erhält den Körper, 
+			 der sich am Nullpunkt befindet.<br>
+			Vorgehen zur Erzeugung eines Dreieck-prismas:<br>
+			<pre>
+	Cylinder c = new Cylinder();	//make a new builder
+	c.setMaterial(someMaterial);
+	c.resolution = 3;		//make it have 3 vertices for top-plate and bottom-plate
+	c.onGround = true;		//make it have its bottom be on the xz-plate
+	Group shape = c.build();
+	shape.moveTo( new Vector3d(1,2,3) );	//handle the result like a normal group
+	universe.add(shape);
+			</pre>
+		</p>
+		
+		<p id="click">
+			<h3 align="center">Interaction 2</h3>
+			Manchmal möchte man wissen, worauf der User meint zu klicken, wenn er auf 
+			 ein Panel3d mit der Maus klickt.<br>
+			Um auf solche 3d-Klicks zu reagieren gibt es den ClickListener3d.<br>
+			Einfach einem SimplePanel3d per setClickListener(listener, mode) einen 
+			 Instanz von ClickListener3d zuweisen und man bekommt auf jeden Klick (oder Drag)
+			 alle möglicherweise angeklickten Renderables.
+			(Das möglicherweise angeklichte Renderable wird per ray-tracing ermittelt - 
+			 jedes Renderable, das einen Schnittpunkt mit dem Strahl zurückgibt wird in 
+			 Betracht gezogen, aber nur dasjenige Renderable, das ganz zuoberst auf 
+			 dem Bildschirm liegt ist das möglicherweise angeklickte. (also nur das jeweils sichtbare))<br>
+			Der ClickMode gibt an, wie eine Mausaktion zu einem 3d-Klick ausgewertet werden soll.<br>
+			(weitere Informationen im javadoc)
+		</p>
+		<p id="creative">
+			<h3 align="center">Creative Coding</h3>
+			<img height="400" src="src/Fast3dTutorial/example4/screenshot.png" align="right">
+			Wäre es nicht cool, wenn man einfach ein Bild malen könnte - mit Raumtiefe?<br>
+			Tja, genau das kann man mit Fast3d auch.<br>
+			Man nehme ein Panel3d / SimplePanel3d und baue ein eigenes MyPanel, das von dieser Klasse erbt.
+			Panel3d und SimplePanel3d stellen zwei sehr interessante Methoden zur Verfügung:
+			<ol>
+			<li>preRender()
+			<li>render(Graphics3d)
+			</ol>
+			preRender() wird standartgemäß genutzt um Änderungen am Panel3d (selten) 
+			 oder an seinem Universe vorzunehmen. In dieser Methode wird auch das gesetzte Control nach 
+			 Änderungen gefragt. Änderungen an der Szenerie sollten im Sinne der MVC-Architectur 
+			 nur von einem Control vorgenommen werden.<br>
+			render(Graphics3d) ist die eigentlich interessante Methode hier:<br>
+			in ihr wird das Universe gerendert. Überschreibt man diese Methode nun,
+			kann man dem normalen Rendervorgang vor oder nach dem rendern des Universe 
+			noch weite Dinge hinzuzeichnen. (Oder man ruft super.render(Graphics3d) nicht auf
+			 und kann ganz eigene Dinge zeichnen)<br>
+			Nun aber das eigentlich spannende an der Methode: ihr Parameter.<br>
+			Ein Graphics3d-Objekt!! Man kann es benutzen wie sein 2D-Pendant aus dem AWT, 
+			 nur für 3d-Szenerien. Damit kann man quasi (und praktisch) 3d-zeichnen - unabhängig 
+			 von wo das Zeichenwerk dann gerendert wird, denn das übernimmt das Graphics3d.<br>
+			Es arbeitet intern mit einem Graphics2D und einem Shader. - Als Shader bezeichnet man hier einen
+			 3d/2D-Konverter.
+			Natürlich verdecken spätere Zeichenoperationen frühere, aber das Problem lässt sich auch ganz einfach lösen:
+			 <i>Graphics3d g.sort(	[Map of Vector3d,RenderAction]	)</i> . Mit dieser Methode kann man an 
+			 verschiedenen Positionen genau dann zeichen, wenn es in die Zeichen-Reihenfolge passt um dahinterliegende
+			 Dinge ordnungsgemäß zu verdecken.
+			(Tipp: Bei Linien spielt es nur dann eine Rolle, wenn sehr viele Linien auf einem Fleck sind)
+			<br>&nbsp;
+			<br>
+			Eine der Grundaufgaben der Programmierung ist es, rekusive Funktionen zu bauen.<br>
+			Mein Informatiklehrer hat den Kurs rekursive Bäume zeichnen lassen. Schauen wir uns das in 3d an:<br>
+			<table border="1" width="100%" height="100%">
+			<tr><td height="95%">
+					<embed type="text" width="100%" height="100%"
+						src="src/Fast3dTutorial/example4/Example0.java">
+			</table>			
+		</p>
+		
+		<p id="turtle">
+			<h3 align="center">Turtles - die fliegenden KünstlerSchildkröten</h3>
+			<img src="src/Fast3dTutorial/example7/screenshot.png" align="right" width="20%">
+			Wenn man im Informatikunterricht schon mal grafisch programmiert hat, wird man bestimmt auch die besonders anschaulichen 
+			 Turtles kennen. Hier für alle anderen ein Idee was Trutle-Grafiken sind: (Quelle Wikipedia)<br>&nbsp;
+			<br>
+			<i>
+			Mit Turtle-Grafik, auch Igelgrafik, wird eine Bildbeschreibungssprache bezeichnet, bei der man sich vorstellt, dass ein stifttragender Roboter (die Schildkröte, engl. „turtle“) sich auf der Zeichenebene bewegt und mit einfachen Kommandos, wie Stift heben, senken, vorwärts laufen und drehen, gesteuert werden kann.
+			</i><br>&nbsp;
+			<br>
+			(Da wir uns im Raum befinden ist die Vorstellung einer Schildkröte die fliegt recht nah :) - demnach ist die 
+			 Bezeichnung Stift heben vielleicht nicht ganz schlüssig- sprechen wir daher eher von aktivieren.<br>
+			Jedenfalls besitzt eine Turtle immer bestimmte Merkmale: eine Transformation (Position und Ausrichtung) als 
+			 eigenes Koordinatensystem (relativ zu diesem - nicht dem absoluten -  werden alle turtle-anweisungen interpretiert),
+			 weiterhin einen Stack als History für Transformationen sodass rekursive Zeichnungen sehr einfach werden und einen 
+			 boolean ob bei Bewegung gezeichnet werden soll.<br>
+			Die Turtle-Grafik wird in Fast3d als Erweiterung des Graphics3d implementiert. Ein TurtlePanel3d 
+			 (abstract, extends SimplePanel3d) stellt hierzu die <i>render(Turtle3d)</i>-Methode bereit
+			Nach dem rendern des Universe kann man so mit einer Turtle noch drüberzeichnen (Meist lässt man das Universe einfach leer).<br>
+			<table border="1" width="100%" height="100%">
+			<tr><td>
+				<embed type="text" width="100%" height="100%"
+				src="src/Fast3dTutorial/example7/TurtleTree.java">
+			</table>
+		</p>
+		
+		<p id="hud">
+			<h3 align="center">HUDs</h3>
+			Es gibt 3 Arten von head-up-displays:
+			<ul>
+			<li>renderable-huds
+			<li>interactive-huds (swing-huds)
+			<li>callouts
+			</ul>
+			Renderable-HUDs sind Renderables, die ein Zeichnen über die fertig gerenderte Szenerie ermöglichen, in 2d. 
+			 Dabei muss das Control auf Interactionen mit dem HUD Rücksicht nehmen - was besonders bei der 
+			 Unterscheidung welcher User-Input für das HUD und welcher für Universe-Interaktion gemeint war knifflig wird.
+			 Diese Art eignet sich also vornehmlich um Daten anzuzeigen.<br>&nbsp;<br>
+			Swing-HUDs sind JComponents die als Childs dem visual-tree des JPanels Panel3d hinzugefügt werden. 
+			 Diese Childs sollten visuell an das Design der 3d-Szenerie angepasst werden, sonst wirken sie wie 
+			 am Bildschirm schwebende Dinge, was das Tiefe-Empfinden stören kann. Das AWT-Eventhandling funktioniert 
+			 aber wie gewohnt und etwaige Controls müssen sich nur noch um die Universe-Interaktion kümmern.<br>&nbsp;<br>
+			Callouts sind Renderables, die einen, der Camera zugewandten, schwebenden Schriftzug im Raum ermöglichen. 
+			 Sie eignen sich gut um weitere Informationen zu einem sichtbare 3d-Objekt zu geben.<br>&nbsp;<br>
+			<br>
+			(weitere Informationen im javadoc)
+		</p>
+		
+		<p id="ntk">
+			<h3 align="center">Interessantes</h3>
+			<ul>
+			<li>alle eingebauten Renderables sind weitgehend gleichartig: Bewegungs-, Rotations- und sonstige gleiche Methoden haben die gleiche Signatur
+			<li>Man kann Groups, Objects und Scenes bewegen und rotieren wie normale Renderables
+			<li>Weißt man einem Material oder einer Farbe eines Renderables eine Alpha-Componente zu, so kann man Glas modellieren
+			<li>die Panel3d-Methoden preRender() und render(Graphics3d) werden in dieser Reihenfolge nacheinander für jedes Frame aufgeruft. 
+			 Einem preRender-call folgt immer sofort ein render-call (Keine synchronisierung notwendig)
+			<li>Panel3d ist die Basisklasse von SimplePanel3d, welches für Debug viele Dinge erleichtert
+			<li>SimplePanel3d hat getUniverse() und getUni(), wobei getUni() == (SimpleUniverse)getUniverse()
+			<li>Es gibt 3 Vektor-Klassen: Vector2d, Vector3d und Vector4d. Das gesamte Framework arbeitet auf doubles
+			<li>fast3d.graphics.Color extends Vector4d x=red, y=green, z=blue, a=alpha, wobei alle Anteile je im Interval [0d;1d] definiert sind
+			<li>mittels der Panel3d-Methode pickClosest(int x, int y) erhält man das Renderable, das an dieser (x/y)-Position des Panel3ds angezeigt wird. 
+			 (Wenn das gerenderte Bild aktuell ist)
+			<li>mittels Camera c.mode.wireframe (boolean) kann man umschalten, ob im wireframe-Modus gerendert werden soll (Polygone nicht mehr füllen)
+			<li>jeder GeometricBodyBuilder der ein resolution-Attribut hat, besitzt auch die Methoden setLowPoly(), setMediumPoly(), setHighPoly() und setXHighPoly()
+			<li>es kann ziemlich kompliziert sein, mit einem TriangleStripGenerator oder gar vollkommen selbstädig eine Kugel zu programmieren: 
+			 fast3d.simple.shape.Sphere ist da eine erhebliche Hilfe
+			</ul>
+		</p>
+		
+		<p id="calc">
+			<h3 align="center">Analytische Geometrie im dreidimensionalen Raum</h3>
+			Fast3d kann nicht nur Bilder berechen, sondern auch mathematische Lageuntersuchungen durchführen.<br>
+			So gibt es das Paket <i>fast3d.math.geom</i> in dem die GeometricObjects Punkt, Gerade und Ebene definiert sind.<br>
+			 (die drei entsprechenden Renderable bieten getPlate() (Triangle), getStraight() (Line) und getPoint() (Pixel)).<br>
+			Um die Lagebeziehungen dieser geometrischen objekte zueinander zu untersuchen gibt es 
+			 <i>fast3d.util.math.RelationshipAnalytics</i>. Diese Klasse stellt statische Methoden zur Verfügung
+			 um sowohl die Lagebeziehung (fast3d.util.math.Relationship (enum)) als auch die konkreten Schnittpunkte, Schnittgeraden
+			 und Abstände zu ermitteln.<br>
+			<ul>
+			<li>
+			Mittels <i>analyzeGeneral(GeometricObject, GeometricObject)</i> lassen sich alle drei definierten geometrischen Objektklassen
+			 übergeben und deren instanceof-Prüfung und der call auf die konkrete Funktion wird intern ausgeführt.<br>
+			<li>
+			Mittels <i>analyze(a, b)</i> wobei a und b jeweils Point, Straight oder Plate sind kann die Lagebeziehung zwischen den 
+			 Parametern untersucht werden. Manche dieser Untersuchungen erfordern das Lösen komplexer Gleichungssysteme, bei denen ein 
+			 sogenanntes zero-lock auftreten kann. Ein Effekt der bei zu Häufiger Rundung im Computerspeicher entsteht. 
+			 Für diese Untersuchungen kann man einen zusätzlichen Parameter zerolockcontrol angeben, um diesen Effekt zu umgehen und 
+			 mit geringer Ungenauigkeit trotzdem zum Ziel zu kommen. (Dabei kann die Berechnung falsch werden- zwei sehr nahe, windschiefe 
+			 Geraden könnten so einen Schnittpunkt haben: es empfiehlt sich, darauf zu vertrauen, dass kein zero-lock eintritt, 
+			 immerhin arbeitet das gesamte Framework auf doubles, das sollte für alle praktischen Fälle genau genug sein)
+			<li>
+			Mittels computeDistance, computeIntersection, ... kann, wenn die Lagebeziehung entsprechend ist,
+			 genaueres berechnet werden<br>
+			Diese Methoden führen zu undefinierten Ergebnissen, wenn die enstprechende Lagebeziehung nicht vorliegt<br>
+			Es muss immer vorher mittels analyze bzw. analyzeGeneral geprüft werden.
+			
+			</ul>
+		</p>
+		<p id="frag">
+			<h3 align="center">FragmentShading</h3>
+			<img align="right" src="src/Fast3dTutorial/example5/screenshot.png" width="50%">
+			<img align="right" src="icon.png" width="30%">
+			Das bisher angewandte Render-Verfahren ist ziemlich schnell und leicht erweiterbar bzw. vielseitig anwendbar.<br>
+			Aber es gibt einen weiteren Renderalgorithmus, der wesentlich genauere (pixelgenaue) Bilder erzeugt. - Dies dauert dann natürlich auch etwas 
+			länger, demnach eignet sich dieses Verfahren nicht für Echtzeit-Anwendungen. Dafür kann das entstehende Bild aber beliebig 
+			 (foto)realistisch werden.<br>
+			Beim FragmentShading wird ein Raytracing-Bild errechnet sodass jeder Pixel exakt ist. Damit ist dieses Verfahren genauer, 
+			 als der Vorgang, der auf einer GPU passiert. Und das Beste: man kann an jedem Punkt der Renderpipeline eingreifen und sogar 
+			 einen komplett eigenen FragmentShader programmieren. - Einfach von fast3d.fragment.FragmentShader ableiten. Oder einfacher: von 
+			 fast3d.simple.fragment.SimpleFragmentShader. Dazu einen fast3d.fragment.FragmentShaderManager bauen, um auf mehreren Threads gleichzeitig zu rendern.<br>
+			Oder: man nehme einfach fast3d.simple.fragment.SimpleFragmentShader direkt. Und den fast3d.simple.fragment.DefaultFragmentShaderManager.
+			Um diese Shader dann anzuwenden benötigt man aber ein spezielles fast3d.fragment.FragPanel3d. Diesem im Konstruktor einfach den Manager 
+			 mitgeben und alles wird laufen. Oder den Konstruktor leer lassen: dann wird automatisch der DefaultFragmentShaderManager mit 
+			 den DefaultFragmentShadern genommmen.
+			In folgender Beispiel-Applikation einfach FragPanel3d durch SimplePanel3d austauschen und den Unterschied erleben.<br>
+			<table border="1" width="100%" height="100%">
+				<tr><td>
+					<embed type="text" width="100%" height="100%"
+					src="src/Fast3dTutorial/example5/Example0.java">
+			</table>
+		</p>
+		<p id="shademode">
+			<h3 align="center">Camera Modes</h3>
+			Zurück zum normalen Panel3d. Es gibt einige Dinge, die man an der Kamera noch einstellen kann.
+			Abgesehen von Position und Ausrichtung bietet die Camera noch eine weitere Einstellungsmöglichkeit: 
+			 den CameraMode.
+			Dieser wiederrum stellt drei booleans und einen Viewmode zur Verfügung.<br>
+			Der Viewmode gibt an, welche Projektion verwendet werden soll: PERSPECTIVE oder ORTHOGONAL - also perspektivische oder tunnel-projektion.<br>
+			Mit den bools gibt man an, welche Dinge noch auf den Screen geshadet werden sollen:
+			<ul>
+			<li>oriented - nur Dinge in Kamera-blickrichtung werden geshadet - standart true - ansonsten tritt ein Lochkamera-Spiegeleffekt auf und man sieht Dinge hinter der Kamera verkehrtherum
+			<li>notincam - nur Dinge außerhalb der Kameralinse werden geshadet - standart false - ansonsten werden Dinge innerhalb der Kamera abgeschnitten
+			<li>inscreen - nur Dinge die auf den sichtbaren Bildschirm-bereicht geshadet werden, werden auch geshadet - standart false - ansonsten Dinge die partiell out-of-screen sind "ploppen" aus dem Sichtbereich
+			</ul>
+			Der CameraMode ist ein public-final- field der Camera. (weitere Informationen im javadoc)
+		</p>
+		<p id="util">
+			<h3 align="center">Nützliche Helfer</h3>
+			Es wurden schon drei utilities angesprochen: den ClickListener3d, ObjFileLoader(inkl. intern MtlFileLoader) und RelationshipAnalytics.<br>
+			Aber es gibt noch weitere in den Paketen unter fast3d.util.<br>
+			Bitte für alles nachfolgende für detaillierte Informationen im javadoc nachsehen, bzw. es selbt versuchen<br>&nbsp;
+			<br>
+			Eines haben wir schon benutzt ohne es sehr zu beachten: den ColorGen(erator). Dieser stellt statische 
+			 Methoden zur Verfügung um Farben zu erzeugen. Zum Beispiel einige Farben selbst: <i>ColorGen.CORNFLOWER_BLUE();</i>.
+			 Oder Methoden um auf Grundlage von linearen oder realistischen oder mathematischen Farbspektren
+			 Farben zu erzeugen mithilfe einer wavelength: <i>ColorGen.genRealistic( 0.3d )</i>
+			 Man kann Zufallsfarben (auch aus den Spektren oder RGB-random) wählen, AWT-Farben umrechnen, HSB-RGB, ARGB-int ->Color...<br>&nbsp;
+			<br>
+			Mittels der inneren Klassen von Sort kann man via Bubblesort oder Quicksort Renderables und Vector3ds zur Kameraposition 
+			 sortieren - das geht aber auch per Graphics3d.sort(...);<br>&nbsp;
+			<br>
+			Der TriangleStripGenerator und sein 2D-Pendant können abgeleitet werden (bevorzugt inline) um aus gegebenen Vektoren (Punkten)
+			 Triangle-Strips zu bauen, die man dann mittels getTriangles() abfragen kann.<br>&nbsp;
+			<br>
+			Mittels der Funktionen von Noise lassen sich 1d-, 2d- oder 3d- Maps(Arrays) aus smooth-random-values erzeugen.<br>&nbsp;
+			<br>
+			VecBinaryReader und VecBinaryWriter serialisieren Vektoren in/aus einem Stream.<br>&nbsp;
+			<br>
+			Viel Spaß beim easy coding.
+		</p>
+		
+		<p id="android">
+			<h3 align="center">Fast3d.Android</h3>
+			Ja, richtig gelesen. Fast3d ist multi-plattform - mit Version 0434 wurde auch die Version 0434a eingeführt. a steht hier für Android.<br>
+			Die Android-Variante ist genauso einfach zu verwenden wie die Desktop-Java-Variante: einfach unter Eclipse dem Build-Path die 
+			 fast3d_aXXXX.jar hinzufügen und darauf achten, dass diese auch mit exportiert wird, sonst kann die .apk nicht korrekt erstellt werden.<br>
+			Natürlich gibt es einige Unterschiede zur Deskop-Version:
+			<ul>
+				<li>Das ganze Framework verwendet float statt double
+				<li>Einige Features sind zu rechenintensiv für mobile Geräte, u.a. FragmentShading
+				<li>Das Controller-Prinzip musste an die UI-Events von Android angepasst werden
+				<li>Das 3d-Klick-Prinzip ist über das SelectionControl gelöst
+				<li>Panel3d ist eine View
+				<li>das Hauptpaket ist <i>fast3d.android</i> statt <i>fast3d</i>
+				<li>mindestens Android API 15 - Android-Version 4.0.3 IceCreamSandwich (läuft auf 97,5% aller Android-Geräte)
+				<li>Das JavaDoc liegt seit Version a0436 nicht mehr im .jar Archiv sondern muss separat hinzugefügt werden (sonst würde es sinnloserweise in die .apk als Ressource eingebunden)
+			</ul>
+			Die a-Versionen werden nicht synchron zu den j-Versionen weitereintwickelt, aber Verbesserungen und neue Features werden 
+			 nach Möglichkeit so schnell wie möglich auch in den a-Versionen implementiert.<br>
+		</p>
+		
+		<p id="gtk">
+			<h3 align="center">Wissenswertes</h3>
+			Installation:<br>
+			Fast3d ist ein java-framework. Also eine library. Diese wird in einer .jar ausgeliefert. Einfach die Datei dem java-build-path hinzufügen.
+			 Beim exportieren der fertigen Applikation darauf achten, dass Fast3d inkludiert / extrahiert wird. <br>&nbsp;
+			 <br>
+			Fall man mal Hilfe braucht:<br>
+			Wenn man die java-Version benutzt findet man das JavaDoc in dem .jar-Archiv im Unterordner doc/ - wenn nicht kann man das JavaDoc 
+			 jedoch auch separat als Datein hinzufügen. Dies ist dann auch die einzige Variante für die android-Version.
+			 (Bitte lesen Sie die Bedienungshilfe Ihrer IDE)<br>
+			 Die Patch-Notes finden sich in der java-Version auch im .jar-Archiv (auf oberster Verzeichnisebene). 
+			 Bei der Android-Version sind die Patch-Notes im Verzeichnis des JavaDocs.
+			<br>
+			Es gibt das Framework (je Sprache) in zwei Varianten: XXXX ist die vierstellige Versionsnummer<br>&nbsp;<br>
+			<table border="1">
+				<tr>
+					<th>fast3d_jXXXX.jar
+					<th>fast3d_jXXXX_docless.jar
+					<th>fast3d_aXXXX.jar
+				<tr>
+					<td>vollständige Version inklusive javadoc. Um das javadoc in einer IDE sichtbar zu machen, muss angegeben werden, wo es zu finden ist. 
+			 Es befindet sich in dem .jar-Archiv im Unterordner <i>doc/</i><br>
+					<td>vollständige, wesentlich kleinere Version ohne javadoc. Diese sollte verwendet werden, wenn die fertige Applikation 
+			 ausgeliefert wird, um diese speicherplatz-gering zu halten.
+					<td>wesentlich kleinere Version ohne javadoc für mobile Android-Geräte (javadoc separat verfügbar)
+				<tr>
+					<td>etwas weniger als 1 MegaBi
+					<td>etwas weniger als 200 KiloBi
+					<td>etwa 150 KiloBi
+				<tr>
+					<td colspan="3">aktuelle Version : Beta-Status
+				<tr>
+					<td colspan="2">j0436
+					<td colspan="1">a0437
+				<tr>
+					<td colspan="3">Features: <a href="#why"> siehe oben </a>
+			</table>
+			<br>
+			Lizenzanmerkung:<br>
+			Egal unter welcher Lizenz eine Ausgabe von Fast3d erhalten wurde, es muss immer der für den User direkt sichtbare Vermerk angezeigt werden:<br>
+			<i>achieved with fast3d</i> oder eine ähnliche, genehmigte Formulierung.<br>&nbsp;
+			<br>
+			Berechnungen und Geschwindigkeit:<br>
+			Alle Berechnungen werden auf der CPU, genauer der JVM ausgeführt. Als Grafikbeschleuniger, sofern verfügbar wird der AWT-Graphics2D-context verwandt. 
+			 Die JVM verwaltet also die Grafikbeschleuniger.
+			Trotzdem schaffte das Framework in den letzten Tests auf einem einzigen Thread im Echtzeit-Rendermodus bei 120000 Vertices (durchschittliche, 
+			 gute Game-Szenerie) auf Full-HD 60fps (frames per second).<br>&nbsp;<br>
+			Portabilität und Kompatibilität:<br>
+			Überall wo java ab Version 1.8 installiert ist läuft auch Fast3d. (Java7 und darunter bestimmt auch - Tests laufen - einfach mal ausprobieren)<br>
+			Eine C#-Version wird diskutiert.<br>&nbsp;<br>
+			(Einige der Features sind für den Entwicklerbuild erklärt. 
+			 Sobald die nächste Version rauskommt werden diese implementiert sein.)<br>
+			Das Framework befindet sich in einem unfertigen Zustand. Keine Garantie für Abwärtskompatibilität.<br>&nbsp;
+			<br>
+			Mindestanforderungen:<br>
+			Die Mindestanforderungen entsprechen denen der java-Installation. Je nach Einsatzzweck und 
+			 Komplexität der zu rendernden Szenerie steigen die Rechenleistungen potentiell begrenzt-exponentiell.<br>&nbsp;
+			<br>
+			Haftung:<br>
+			Fast3d ist ein privat einwickeltes Framework. Sollte es Bugs enthalten, so ist der Entwickler 
+			 nicht für daraus entstandene Schäden verantwortlich. Das Framework befindet sich im Beta-Status-
+			 das heißt, dass es noch nicht fertig entwickelt ist. Eventuell fehlen noch Funktionalitäten oder 
+			 sind noch Berechnungsfehler vorhanden, die nach und nach behoben werden.<br>
+			Jeder Einsatz erfolgt auf eigene Gefahr. Sollte das Framework unbeabsichtige oder unerwartete 
+			 Dinge tun, so führen Sie bitte einen Virenscan durch. Die .jar-Datei wurde nicht absichtlich 
+			 verseucht- der Entwickler möchte sie immerhin selbst benutzen.<br>
+		</p>
+		<hr>
+		<b>Nutzungsbedingungen, Copyright und Eigentum</b><br>
+		Fast3d ist alleinig geistiges Eigentum des alleinigen Entwicklers Tim Trense.<br>
+		Das Framework und alle seine Anwendungen, Kopien, Erweiterungen, Veränderungen, Verbreitungen, Nutzungen usw. erfolgen ausschließlich unter deutschem Recht.<br>
+		<b>Copyright 2016. Made in Saxony, Germany.<br>
+		Alle Rechte vorbehalten.</b><p>
+		Jede Nutzung, Veränderung, Kopie oder Verbreitung muss von dem Entwickler genehmigt werden.
+	</body>
+</html>
