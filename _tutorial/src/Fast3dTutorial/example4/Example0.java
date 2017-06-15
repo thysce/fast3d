@@ -1,4 +1,4 @@
-package example4;
+package _tutorial.src.Fast3dTutorial.example4;
 
 import fast3d.graphics.Color;
 import fast3d.graphics.Graphics3d;

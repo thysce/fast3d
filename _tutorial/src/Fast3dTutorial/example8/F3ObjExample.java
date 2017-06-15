@@ -1,4 +1,4 @@
-package example8;
+package _tutorial.src.Fast3dTutorial.example8;
 
 import java.io.File;
 

@@ -1,9 +1,9 @@
-package example4;
+package _tutorial.src.Fast3dTutorial.example4;
 
 import fast3d.graphics.Graphics3d;
 import fast3d.math.Vector3d;
 import fast3d.simple.SimplePanel3d;
-import fast3d.simple.controls.SimpleTopDownRotationUserControl;
+import fast3d.simple.controls.RotationControl;
 import fast3d.util.ColorGen;
 
 public class Example4 extends SimplePanel3d {
@@ -18,8 +18,7 @@ public class Example4 extends SimplePanel3d {
 
 		final Example4 e4 = new Example4();
 
-		final SimpleTopDownRotationUserControl c = new SimpleTopDownRotationUserControl(
-				e4);
+		final RotationControl c = new RotationControl(e4);
 		c.allowNegativeRotX = true;
 		c.allowPositiveRotX = true;
 		c.activate();
@@ -40,18 +39,24 @@ public class Example4 extends SimplePanel3d {
 		renderTree(base, g, length, minLength);
 	}
 
-	private void renderTree(Vector3d b, Graphics3d g, double length, double minLength) {
+	private void renderTree(Vector3d b, Graphics3d g, double length,
+			double minLength) {
 
 		final Vector3d t = b.clone();
 		g.line(b, t.add(Vector3d.up().scaleTo(length)));
 
 		length /= 1.5;
 		if (length > minLength) {
-			final Vector3d t2 = t.clone().add(Vector3d.up().scaleTo(length));
-			final Vector3d b1 = t2.clone().add(Vector3d.right().scaleTo(length));
-			final Vector3d b2 = t2.clone().add(Vector3d.right().invert().scaleTo(length));
-			final Vector3d b3 = t2.clone().add(Vector3d.forward().scaleTo(length));
-			final Vector3d b4 = t2.clone().add(Vector3d.forward().scaleTo(-length));
+			final Vector3d t2 = t.clone()
+					.add(Vector3d.up().scaleTo(length));
+			final Vector3d b1 = t2.clone()
+					.add(Vector3d.right().scaleTo(length));
+			final Vector3d b2 = t2.clone()
+					.add(Vector3d.right().invert().scaleTo(length));
+			final Vector3d b3 = t2.clone()
+					.add(Vector3d.forward().scaleTo(length));
+			final Vector3d b4 = t2.clone()
+					.add(Vector3d.forward().scaleTo(-length));
 			// scaleTo(-x) == invert().scaleTo(x)
 
 			renderTree(b1, g, length, minLength);

@@ -1,4 +1,4 @@
-package example3;
+package _tutorial.src.Fast3dTutorial.example3;
 
 import fast3d.Renderable;
 import fast3d.complex.light.Material;

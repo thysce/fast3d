@@ -1,4 +1,4 @@
-package example5;
+package _tutorial.src.Fast3dTutorial.example5;
 
 import javax.swing.JFrame;
 

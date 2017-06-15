@@ -1,4 +1,4 @@
-package example7;
+package _tutorial.src.Fast3dTutorial.example7;
 
 import fast3d.graphics.Turtle3d;
 import fast3d.math.Vector3d;

@@ -1,4 +1,4 @@
-package example0;
+package _tutorial.src.Fast3dTutorial.example0;
 
 import fast3d.simple.SimplePanel3d;
 
