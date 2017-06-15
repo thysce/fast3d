@@ -1,0 +1,258 @@
+fast3d - an easy to use 3d-framework
+current version is the last in the patch notes list below
+
+patch notes:
+
+	version 0100
+		upgrade to name jav3d
+	version 0200
+		upgrade to name swing3
+	version 0300
+		upgrade to name fast3d
+	version 0400
+		fragment shader concept added
+		current features:
+			useful 3d functionality within less than 10 lines of code
+			complete documentation
+			extremely easy-to-use
+			completely CPU-based pure java
+			60fps full-HD on up to (not shadowed but illuminated) 100.000 vertices
+			phong-illumination-model
+			a swing component to render a 3d scenery
+			model-view-control-architecture
+			model:
+				a universe stores all renderables (something implementing render(Graphics3d) and some other methods), the camera and lights capable of rayTracing
+				renderables can be combined to groups, objects and scenes to handle (and transform) them
+			view:
+				a panel3d has a universe and displays it using a graphics3d object which can be treated as one of the awt-packages but has a 3d/2d converter
+			controller:
+				a panel3d can handle 3d-clicks
+				a complete controller architecture (automated- and user-control)
+			all base-classes are extendable with working integration
+			all calculations hidden (unless the user wants to manipulate them directly - that is possible)
+			simple packages with default implementations for everything
+	version 0410
+		custom fragment shader (base class fast3d.fragment.DefaultFragmentShader or fast3d.fragment.SimpleFragmentShader if the SimpleUniverse is used)
+		for that a custom fragment shader manager needs to be passed to a fast3d.fragment.FragPanel3d, default implementation permitted
+	version 0411
+		moved default- and simple implementations of fragment concepts to fast3d.simple.fragment-package
+	version 0412
+		bug fixes on lighting calculation (previous not done)
+		changed the fast3d.simple.control.userControl.SimpleFirstPersonUserControl control scheme a bit
+	version 0413
+		fast3d.graphics.ColorGen: 
+			standard colors converted from static fields to methods
+			fixed a problem where the argument range of genRealistic is not flipped (wavelength to frequency) as expected
+	version 0414
+		screen ratios are considered in the camera using applyAspectRatioWpH or applyAspectRatioHpW so that no warp effect will happen anymore 
+		- the Panel3d does the appliance of its current aspect ratio for each frame automatically so the entire problem does not have to be considered unless that it is now fixed
+	version 0415
+		the shading-matrix-calculations are recoded
+	version 0416
+		emissive color in materials and lighting
+		code formatted
+		complete implementation of toString and equals -methods in all instanceable classes
+	version 0417
+		fast3d.math.Vector4d added
+		color model recoded - now extending Vector4d and handling alpha-values (1 is opaque)
+		--revision 2
+			lighting model takes now care of the alpha-component of the colors (something like glass can now be modeled)
+			bug fixes - see revision 2
+		--revision 3
+			fixed a problem with the rayTracing stopped working for AdvTriangles because of incorrect implementation of the equals method of material
+				the check for equal materials in the AdvTriangle.equals method is currently disabled (real fix of problem in progress)
+		--revision 4
+			fixed the problem of revision 3 entirely
+			recoded all equals()-methods: check for this reference equation results in return true
+		--revision 5
+			the fast3d.simple.fragment.DefaultFragmentShader can handle alpha values now
+	version 0418
+		fast3d.complex.ObjFileLoader can now handle different index-offsets (specified by the static indexOffset field) - arrays are 0-based but obj-files are (normally) 1-based
+		added rectangles (fast3d.renderable.Rectangle)
+		added images (rendered just like its superclass rectangle (with a plain color- default green) when using a graphics3d, but rendered as expected when using an fragment-shader that takes care of images)
+		the fast3d.simple.fragment.DefaultFragmentShader takes care of images now
+	version 0419
+		recoded vector-classes: now they have all similar methods and documentations
+		little bug fixes and improvements on ColorGen
+	version 0420
+		little improvements on similarity of the built-in renderables
+		a static to use class for audio-playback fast3d.simple.sound.SimpleAudio
+	version 0421
+		fixed rotation and translation bug for groups
+		similar renderables
+	version 0422
+		bug fixes and improvements to previous version
+			rotation of scenes and objects now regarding advTriangle-normals
+			invalidateLight in universe-interface
+			applying aspect ratio does not effect the camera rotation now -bugfix
+			SimpleTopDownRotationUserControl reset defaults no rotX possible by default, enable by using fields
+			specular lighting okay now
+			group, object and scene now implement illuminatable - no reason anymore to add triangles separately if not need to occur in the universes storage separately (may for ray tracing)
+			static creation methods for vectors along the axes
+			fixed a bug where callouts are displayed at size of 1 pixel
+			fixed a bug where parallel and orientation of vectors is not computed correctly due to division through 0 (fixed for all vectors: dim 2,3,4)
+			fixed a bug where the camera-up vector of fast3d.simple.control.[userControl.SimpleTopDownRotationUserControl | autoControl.SimpleTopDownRotationAutoControl] was aligned to the y-axis
+			easy opacity access on colors setOpaque, setTransparent setSemiOpaque
+			fixed a bug where Panel3d.pick() selected a false pick-location and returned mostly nothing
+			color can now be converted to awt form making it instantly opaque : Color.awtColorOpaque()
+		opened a new package fast3d.util
+			fast3d.util.Relationship and fast3d.util.RelationshipAnalytics introduced to analyze the relationship of the mathematical 3d-objects point, straight(given by line) and plate(given by triangle) to one another
+				tested -> working
+			moved ObjFileLoader and MtlFileLoader to util
+			moved ColorGen to util
+			replaced fast3d.simple.click by fast3d.util.click
+			merged fast3d.simple.sound to util
+			added a noise generator to fast3d.util
+		a default icon :) !!!
+		introduced an interface fast3d.math.geom.GeometricObject used by RelationshipAnalytics
+		RelationshipAnalytics can now compute the distance of points, straights and plates to another
+		RelationshipAnalytics can now compute the intersection point or straight of straight/straight, straight/plate, plate/plate
+			bug fixes
+		testing in progress
+		-- revision 2
+		 	tested whether making renderable extending geometricObject would be sensful -> failure -> huge code-refactor -> instable
+	version 0423
+		bug fixes
+			fixed a bug where triangles were only moved on one edge (edge1)
+		added the possibility to change orbit-center by translation-field for fast3d.simple.control.userControl.SimpleTopDownRotationUserControl
+		added constrainLength to vector-classes
+		added HUDs as renderables
+		added fast3d.util.MathUtil with map, overflow and constrain
+		added conversion between Cartesian and polar coordinates in vector2d and vector3d
+		added a fast3d.util.TriangleStripGenerator and a TriangleStripGenerator2d
+		switched ColorGen.fromHSB to use casted doubles now
+		re-arranged the util-packages 
+		added a serialization package fast3d.util.serial with binaryRW-abilities and vector-serialization
+		tiny changes in the patchNotes.txt-header
+		-- revision 2
+			removed all TODOs in the source code
+			added the possibility to invert the rotation in SimpleTopDownRotationUserControl by fields invertRX and invertRY
+	version 0424
+		added the possibility to get a vector per frame by FrameRate
+	version 0425
+		slight changes in the documentation for Panel3d and renderables.HUD to show the possibility to render HUDs
+		tested the possibility to add AWT/swing components to a Panel3d as interactive HUDs - working - integrated - validated - doc updated
+		moved Sort class to fast3d.util
+	version 0426
+		added the possibility to generate random colors with given opacity
+		for a (x/y)-coordinate you can get the 3d screen pixel on Panel3d
+	version 0427
+		fast3d.math.Viewmode introduced to offer the possibility to the shader to switch between orthographic and perspective shading
+		fast3d.math.CameraMode introduced to combine a viewmode and the mode_oriented and mode_inScreen fields of a camera
+		a camera holds now a CameraMode
+		shader works with the camera fields directly - they are not longer copied (by reference)
+		shader can now handle viewmode.orthogonal
+		cameras should definitely not edited during shading (means: during render(Graphics3d))
+		camera vector fields are now accessible by package - not longer private to accelerate shader
+		--revision 2
+			DefaultFragmentShader can now handle orthographic CameraMode
+			a Panel3d takes now care of the CameraMode on pick(int x, int y)
+			CameraMode notinscreen introduced
+			bugfix on the shader: CameraMode oriented and notinscreen are handled correct now
+			bugfix Panel3d pick handles camera mode correct now
+			bugs fixed on camera-mode consideration in various classes
+	version 0428 (backward incompatible)
+		complete control rework
+		a panel3d has a control now (prior just simplepanel3d)
+		all controls do now extend fast3d.control.Control or fast3d.control.SimpleControl
+		the built-in controls were adapted and moved to fast3d.simple.controls, they do all extend SimpleControl
+		for detailed information see javadoc
+	version 0429
+		added an interface RenderAction with render(Vector3d position, Graphics3d) to render something
+		added an interface RenderableRenderAction<T extends Renderable> with render(T,Graphics3d) to render T and something related to it
+		added a method to Graphics3d to render on a perspectively sorted position 
+	version 0430
+		little improvements and tests
+		added Vector3d.random2dAB where AB is either xy, xz or yz
+		moved the wireframe-render-option from Graphics3d to CameraMode
+		added scale(factor) to Group, Object and Scene
+		added forEveryVertex(VA) and forEveryVertexOnce(VA) to Group, Object and Scene, where VA is -... 
+		a new functional interface VertexAction
+		added addObjectsToUniverse, removeObjectsFromUniverse to Scene
+		added addGroupsToUniverse, removeGroupsFromUniverse to Object
+		triangles use the average of their edge-vertices as position now (equal but accelerated to prior a + 1/2ab + 1/2ac)
+		groups, objects and scenes now use general triangles - to access the AdvTriangles use the getAdvTriangles(), getAdvTrianglesAsArray() and getAdvTrianglesOnce() methods
+		fixed a bug on rotation of groups, objects and scenes
+		added the possibility to mix colors and get a color from a vector4d
+		added the possibility to keep the first vertex on TriangleStripGenerator
+	version 0431
+		added fast3d.simple.shapes with GeometricBodyBuilder to build geometric bodies (see javadoc for info about function)
+		added Box, Cone (usable as Pyramid), Sphere and Cylinder (usable as Prism) as simple, built-in geometric-body-builders
+	version 0432
+		added alpha to materials
+		added fast3d.control.MultiControl
+		fixed a bug where changes to a vertex between two shades are ignored : introduced Vector3d v.invalidateShaded() - no changes to users
+		added a method to Panel3d so that subclasses may construct their own Graphics3d to be passed to render()
+		added Turtle3d as a subclass of Graphics3d to do turtle-graphics 
+		added a TurtlePanel3d (abstract with render(Turtle3d))
+	version 0433
+		added Color c.isOpaque() and c.isTransparent()
+		MtlLibLoader can interpret the d-statement of .mtl-files as alpha
+		added an entire new file format for 3d-scenes: .f3obj
+		added fast3d.util.serial.F3ObjImporter and F3ObjExporter
+		moved ObjFileLoader and MtlLibLoader to fasr3d.util.serial
+		--revision 2
+			the f3obj-Exporter/Importer can now handle compression up to 90%
+			added quick static methods for import/export
+			added Vector.isFinit(Vector) for 2d, 3d and 4d
+			introduced the LightInvalidationControl
+			little changes in accessing performInput() of a control - now via applyChanges()
+			added a very simple physics simulation (fast3d.util.AVec)
+			added individual activate/deactivate - methods to Control
+	version 0434
+		TEXTURES
+		added fast3d.graphics.Texture
+		added fast3d.renderables.TextureTriangle extending Triangle
+		added HD field to CameraMode as a render-hint
+		--revision 2
+			fixed a bug where texture-coordinate-overflow has failed if logical coordinate was 1 --> changed MathUtil.overflow to use range [min;max[ instead of [min;max]
+			removed HD field - useless
+			renamed fast3d.simple.controls' Controls -- shorter names now -- doc includes prior names
+			fixed a bug where logical texture coordinates were wasted
+	version 0434a
+		ANDROID-Version
+		asynchronous development
+		changes:
+			Panel3d is a view
+			3d-clicks are implemented as a control
+			the controller-principle is using android-events
+			no fragment-shading
+			float instead of double
+		changing naming
+			java-versions are named like ... where XXXX is the version id
+				fast3d_jXXXX.jar | fast3d_jXXXX_docless.jar
+			android-versions are named like ... - no version id
+				fast3d.android-debug.aar | fast3d.android-release.aar
+	version j0435 sync to a0435
+		javadoc-rework: completed javadoc for every! class method and field that is more visible (or) protected
+		changed naming
+			java-versions are named like ... where XXXX is the version id
+				fast3d_jXXXX.jar | fast3d_jXXXX_docless.jar
+			android-versions are named like ... - where XXXX is the version id (not necessarily synchronous to the java-version) 
+				fast3d_aXXXX.jar | fast3d_aXXXX_docless.jar
+	information: patchNotes for android are in the doc/ sub-folder of the fast3d_aXXXX.jar file
+	version j0436
+		texture-rework
+			added a Texture - field to Material (may be null)
+			switched Textures to use fast3d-colors instead of awt-colors
+			Texture-pixel-color do not need to be cloned anymore
+			removed TextureTriangle - if the texture-field in the material is set than AdvTriangle will have a texture
+			ObjFileLoader can now load textures
+			to deactivate illumination of textures set illuminateTexture to false in AdvTriangle
+		removed renderable Image
+	version j0437
+		adapted asyncPreRender() of Panel3d from the android-version
+		added showActualFPS (public boolean) to SimplePanel3d
+		added a slow-down feature to RotationControl (set by public double field invFriction, default is 0d meaning off)
+		added revalidateLight() to Illuminatable to offer possibility to recompute the visible color instantly (e.g. asynchronously)
+		added a build() method to the triangle-strip-generators
+	version j0438 (corresponding to a0939)
+		added the possibility to auto-rotate in the RotationControl
+		added MultiThreadShading!!! (just call setSharedShadingThreadCount on every MultiThreadPanel3d)
+		switched the superclass of SimplePanel3d from Panel3d to MultiThreadPanel3d
+		changed the render-process: it now consists of shade(Graphics3d) and render(Graphics3d), Renderables are requested to do
+		 shading-calculations on shade() and buffer the result until render()
+		implemented the new render-process on all predefined renderables and complex structures (group, object, scene)
+		
+		.
+.

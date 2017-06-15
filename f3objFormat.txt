@@ -1,0 +1,37 @@
+UniJ
+XObj
+
+there can be multiple instances of the following blocks
+	-new group
+	-new object
+	-faces with material
+	-faces with normal and material
+	-colors
+	-transparentColors
+	
+
+Block-ID 	Content					Serial
+000			end of file
+001			reset but not loaded scene
+002			vectors					amount(char), coordinates x,y,z (float)
+003			new group				lengthOfGroupIDByteArray(unsigned byte), byte[] UTF-8
+004			new object				lengthOfObjectIDByteArray(unsigned byte), byte[] UTF-8
+005			faces normal material	amount(unsigned byte), edgeIndecies1-3 (char), normalIndex (char), materialIndex (unsigned byte)
+006			colors					amount(char), components rgb (unsigned byte)
+007			transparentColors		amount(char), components rgba (unsigned byte)
+008			materials				amount(unsigned byte), ambient,diffuse,specular,emissive(char),
+										shininess(unsigned byte), alpha (unsigned byte)
+009			faces material			@see faces normal material, without normalIndex
+010			use material			material-index (unsigned byte)
+011			faces usedMaterial		@see faces material, without materialIndex
+										
+block-IDs are unsigned byte
+every file starts with one setup-byte:
+	1 means compressed
+	0 means uncompressed
+
+	if a file is compressed than for every vector the xyz-floats are compressed into 2 byte-floats
+	a 2b-float has the following schema high-to-low:
+		01 bit +-
+		03 bit 10-based exponent with offset -2
+		12 bit mantissa
